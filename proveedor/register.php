@@ -7,10 +7,10 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
   if (!$email || !$pass || !$name) $err='Completar email, contraseña y nombre.';
   else {
     $hash = password_hash($pass, PASSWORD_DEFAULT);
-    $pdo->prepare("INSERT INTO users(email,password_hash,role,status) VALUES(?,?,'provider','pending')")->execute([$email,$hash]);
+    $pdo->prepare("INSERT INTO users(email,password_hash,role,status) VALUES(?,?,'provider','active')")->execute([$email,$hash]);
     $uid = (int)$pdo->lastInsertId();
-    $pdo->prepare("INSERT INTO providers(user_id,display_name,status) VALUES(?,?,'pending')")->execute([$uid,$name]);
-    $msg='Registro enviado. Quedó pendiente de aprobación.';
+    $pdo->prepare("INSERT INTO providers(user_id,display_name,status) VALUES(?,?,'active')")->execute([$uid,$name]);
+    $msg='Registro completado. Ya podés iniciar sesión.';
   }
 }
 page_header('Registro Proveedor');
